@@ -1,0 +1,104 @@
+# User queries
+query GetUser($id: User_Key!) @auth(level: PUBLIC) {
+  user(key: $id) {
+    id
+    displayName
+    email
+    photoUrl
+    createdAt
+  }
+}
+
+query GetUserByEmail($email: String!) @auth(level: PUBLIC) {
+  users(where: { email: { eq: $email } }) {
+    id
+    displayName
+    email
+    photoUrl
+    createdAt
+  }
+}
+
+# Course queries
+query ListCourses @auth(level: PUBLIC) {
+  courses {
+    id
+    title
+    description
+    estimatedCompletionTime
+    imageUrl
+    createdAt
+  }
+}
+
+query GetCourse($id: Course_Key!) @auth(level: PUBLIC) {
+  course(key: $id) {
+    id
+    title
+    description
+    estimatedCompletionTime
+    imageUrl
+    createdAt
+  }
+}
+
+query GetCourseWithLessons($id: Course_Key!) @auth(level: PUBLIC) {
+  course(key: $id) {
+    id
+    title
+    description
+    estimatedCompletionTime
+    imageUrl
+    lessons_on_course {
+      id
+      title
+      content
+      order
+      videoUrl
+      documentUrl
+    }
+  }
+}
+
+# Enrollment queries
+query GetUserEnrollments($userId: User_Key!) @auth(level: PUBLIC) {
+  user(key: $userId) {
+    id
+    displayName
+    enrollments_on_user {
+      course {
+        id
+        title
+        description
+        imageUrl
+      }
+      enrolledAt
+      progressPercentage
+      completedAt
+    }
+  }
+}
+
+# Lesson queries
+query GetLesson($id: Lesson_Key!) @auth(level: PUBLIC) {
+  lesson(key: $id) {
+    id
+    title
+    content
+    order
+    videoUrl
+    documentUrl
+    createdAt
+  }
+}
+
+query GetLessonsForCourse($courseId: UUID!) @auth(level: PUBLIC) {
+  lessons(where: { course: { id: { eq: $courseId } } }, orderBy: [{ order: ASC }]) {
+    id
+    title
+    content
+    order
+    videoUrl
+    documentUrl
+  }
+}

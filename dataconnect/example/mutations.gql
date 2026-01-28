@@ -1,0 +1,111 @@
+# User mutations
+mutation CreateUser($displayName: String!, $email: String!, $photoUrl: String) @auth(level: PUBLIC) {
+  user_insert(data: {
+    displayName: $displayName
+    email: $email
+    photoUrl: $photoUrl
+    createdAt_expr: "request.time"
+  })
+}
+
+mutation UpdateUser($id: User_Key!, $displayName: String, $photoUrl: String) @auth(level: PUBLIC) {
+  user_update(key: $id, data: {
+    displayName: $displayName
+    photoUrl: $photoUrl
+  })
+}
+
+# Course mutations
+mutation CreateCourse(
+  $title: String!
+  $description: String!
+  $estimatedCompletionTime: String!
+  $imageUrl: String
+) @auth(level: PUBLIC) {
+  course_insert(data: {
+    title: $title
+    description: $description
+    estimatedCompletionTime: $estimatedCompletionTime
+    imageUrl: $imageUrl
+    createdAt_expr: "request.time"
+  })
+}
+
+# Lesson mutations
+mutation CreateLesson(
+  $courseId: Course_Key!
+  $title: String!
+  $content: String!
+  $order: Int!
+  $videoUrl: String
+  $documentUrl: String
+) @auth(level: PUBLIC) {
+  lesson_insert(data: {
+    course: $courseId
+    title: $title
+    content: $content
+    order: $order
+    videoUrl: $videoUrl
+    documentUrl: $documentUrl
+    createdAt_expr: "request.time"
+  })
+}
+
+# Enrollment mutations
+mutation EnrollUserInCourse($userId: User_Key!, $courseId: Course_Key!) @auth(level: PUBLIC) {
+  enrollment_insert(data: {
+    user: $userId
+    course: $courseId
+    enrolledAt_expr: "request.time"
+    progressPercentage: 0
+  })
+}
+
+mutation UpdateEnrollmentProgress(
+  $userId: UUID!
+  $courseId: UUID!
+  $progressPercentage: Int!
+) @auth(level: PUBLIC) {
+  enrollment_update(key: { userId: $userId, courseId: $courseId }, data: {
+    progressPercentage: $progressPercentage
+  })
+}
+
+mutation CompleteEnrollment($userId: UUID!, $courseId: UUID!) @auth(level: PUBLIC) {
+  enrollment_update(key: { userId: $userId, courseId: $courseId }, data: {
+    progressPercentage: 100
+    completedAt_expr: "request.time"
+  })
+}
+
+# Lesson progress mutations
+mutation MarkLessonComplete(
+  $userId: UUID!
+  $courseId: UUID!
+  $lessonId: Lesson_Key!
+) @auth(level: PUBLIC) {
+  lessonProgress_insert(data: {
+    enrollment: { userId: $userId, courseId: $courseId }
+    lesson: $lessonId
+    completed: true
+    completedAt_expr: "request.time"
+  })
+}
+
+# Quiz mutations
+mutation CreateQuiz($lessonId: Lesson_Key!, $title: String!) @auth(level: PUBLIC) {
+  quiz_insert(data: {
+    lesson: $lessonId
+    title: $title
+    createdAt_expr: "request.time"
+  })
+}
+
+mutation RecordQuizAttempt($userId: User_Key!, $quizId: Quiz_Key!, $score: Int!) @auth(level: PUBLIC) {
+  quizAttempt_upsert(data: {
+    user: $userId
+    quiz: $quizId
+    attemptedAt_expr: "request.time"
+    score: $score
+  })
+}

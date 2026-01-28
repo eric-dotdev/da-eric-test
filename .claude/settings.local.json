@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(firebase emulators:start:*)",
+      "Bash(firebase:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(pkill:*)",
+      "Bash(curl:*)",
+      "Bash(pnpm install:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(tree:*)",
+      "Bash(shopify version:*)",
+      "Bash(shopify app init:*)",
+      "Bash(node --version:*)",
+      "Bash(git clone:*)",
+      "Bash(npm view:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(pnpm run build)",
+      "Bash(ls:*)",
+      "Bash(pnpm ls:*)",
+      "Bash(find:*)",
+      "Bash(python3:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)"
+    ]
+  }
+}
