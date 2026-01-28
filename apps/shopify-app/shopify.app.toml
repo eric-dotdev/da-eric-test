@@ -3,12 +3,11 @@
 scopes = "write_products"
 
 # TODO: Update these URLs after deploying to Firebase App Hosting
-# application_url = "https://your-app-hosting-url.web.app"
-# [auth]
-# redirect_urls = [
-#   "https://your-app-hosting-url.web.app/auth/callback",
-#   "https://your-app-hosting-url.web.app/auth/shopify/callback",
-# ]
+ application_url = "https://shopify-app--da-eric-test.asia-southeast1.hosted.app"
+ [auth]
+ redirect_urls = [
+   "shopify-app--da-eric-test.asia-southeast1.hosted.app/auth/callback",
+ ]
 
 [webhooks]
 api_version = "2025-10"
